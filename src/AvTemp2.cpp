@@ -8,52 +8,92 @@
 
 #include <iostream>
 #include <vector>
+#include <limits>
+// limits позволит узнать возможные максимальные и минимальные значени€ переменных
 
 using namespace std;
 
 int main()
 {
-	int Q;
-	cin >> Q;
-	int sum = 0;
-	vector<int> temp(Q);
+	int x = 2'000'000'000;
+	x *= 2;
+	// ¬ этом месте x будет больше, чем может содержать тип int. “аким образом возникнет переполнение.
+	// ћы получим большое отрицательное число.
+	// ѕосле переполнени€ более максимального значени€ переменна€ примет минимальное значение и это значение будет увеличено на разницу
+	cout << x << endl;
+	// “ут выведетс€ совсем не 4 миллиарда
 
-	for (auto& i : temp)
-	{
-		cin >> i;
-		sum += i;
-	}
-	int avn = sum / static_cast<int>(temp.size());		// — static_cast<int> переменна€ temp.size() приведетс€ к типу int и проблемы переполнени€€ при
-														// отрицательных значени€х не будет.
-														// ¬ таком виде в случае значений вектора temp = {-8, -7 ,3} программа будет работать корректно.
-	cout << "Average value = " << avn << endl;
-	/*
-	for (int& i : temp)
-	{
-		cin >> i;
-		sum += i;
-	}
-	int avn = sum / Q;							// ј вот в этой строке уже не будет проблемы с переполнением
-												// так как Q не €вл€етс€ переменной беззнакового типа. Q это int,
-												// и деление int на int проблем с не€вным преобразованием вызывать не может.
-	*/
+	cout << endl;
 
-	vector<int> result;
+	// Ќиже попробуем разные типы целочисленных переменных и определим их размер в байтах:
 
-	// for (int i = 0; i < temp.size(); ++i)						¬ таком виде компил€тор выдаст предупреждение о сравнении знакового типа с беззнаковым
-	for (int i = 0; i < static_cast<int>(temp.size()); ++i)			// ј в таком случае предупреждени€ не будет. “ак как мы принудительно привели переменную
-																	// беззнакового типа temp.size() к знаковому типу int методом static_cast<int>
-	{
-		if (temp[i] > avn)
-		{
-			result.push_back(i);
-		}
-	}
-	cout << result.size() << endl;
+	int a;
+	cout << "Size of int = " << sizeof(int) << " byte" << endl;
+	// ќбычно 4 байта. «нач-€ от  -2^31 до 2^31-1
+	cout << numeric_limits<int>::min() << ' ' <<
+			numeric_limits<int>::max() << endl;
 
-	for (auto i : result)
-	{
-		cout << i << " ";
-	}
+	unsigned int b;
+	cout << "Size of unsigned int = " << sizeof(unsigned) << " byte" << endl;
+	// ќбычно 4 байта. «нач-€ от 0 до 2^32-1
+	cout << numeric_limits<unsigned int>::min() << ' ' <<
+			numeric_limits<unsigned int>::max() << endl;
+
+
+	size_t c;
+	cout << "Size of size_t = " << sizeof(size_t) << " byte" << endl;
+	// 4 или 8 байт (Ёто зависит от архитектуры - 32 или 64 битна€). «нач-€ от 0 до 2^32-1 или 0 до 2^64-1 (это результат вызова метода size() дл€ контейнеров)
+	cout << numeric_limits<size_t>::min() << ' ' <<
+			numeric_limits<size_t>::max() << endl;
+
+	int8_t d;
+	cout << "Size of int8_t = " << sizeof(int8_t) << " byte" << endl;
+	// 1 байт. «нач-€ от -2^7 до 2^7-1
+	cout << numeric_limits<int8_t>::min() << ' ' <<
+			numeric_limits<int8_t>::max() << endl;
+
+	uint8_t ud;
+	cout << "Size of uint8_t = " << sizeof(uint8_t) << " byte" << endl;
+	// 1 байт. «нач-€ от 0 до 2^8-1
+	cout << numeric_limits<uint8_t>::min() << ' ' <<
+			numeric_limits<uint8_t>::max() << endl;
+
+	int16_t e;
+	cout << "Size of int16_t = " << sizeof(int16_t) << " byte" << endl;
+	// 2 байта. «нач-€ от -2^15 до 2^15-1
+	cout << numeric_limits<int16_t>::min() << ' ' <<
+			numeric_limits<int16_t>::max() << endl;
+
+	uint16_t ue;
+	cout << "Size of uint16_t = " << sizeof(uint16_t) << " byte" << endl;
+	// 2 байта. «нач-€ от 0 до 2^16-1
+	cout << numeric_limits<uint16_t>::min() << ' ' <<
+			numeric_limits<uint16_t>::max() << endl;
+
+	int32_t f;
+	cout << "Size of int32_t = " << sizeof(int32_t) << " byte" << endl;
+	// 4 байта. «нач-€ от -2^31 до 2^31-1
+	cout << numeric_limits<int32_t>::min() << ' ' <<
+			numeric_limits<int32_t>::max() << endl;
+
+	uint32_t uf;
+	cout << "Size of uint32_t = " << sizeof(uint32_t) << " byte" << endl;
+	// 4 байта. «нач-€ от 0 до 2^32-1
+	cout << numeric_limits<uint32_t>::min() << ' ' <<
+			numeric_limits<uint32_t>::max() << endl;
+
+	int64_t g;
+	cout << "Size of int64_t = " << sizeof(int64_t) << " byte" << endl;
+	// 8 байт. «нач-€ от -2^63 до 2^63-1
+	cout << numeric_limits<int64_t>::min() << ' ' <<
+			numeric_limits<int64_t>::max() << endl;
+
+	uint64_t ug;
+	cout << "Size of uint64_t = " << sizeof(uint64_t) << " byte" << endl;
+	// 8 байт. «нач-€ от 0 до 2^64-1
+	cout << numeric_limits<uint64_t>::min() << ' ' <<
+			numeric_limits<uint64_t>::max() << endl;
+
+
 	return 0;
 }
